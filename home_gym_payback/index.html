@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณจุดคุ้มทุน: ฟิตเนสที่บ้าน vs สมาชิกยิม (ประเทศไทย) — Payback Labs</title>
+    <meta name="description" content="เปรียบเทียบการซื้ออุปกรณ์ออกกำลังกายที่บ้านกับการสมัครสมาชิกยิม คำนวณจุดคุ้มทุนและดูว่าแบบไหนประหยัดกว่าในระยะยาว">
+    <link rel="canonical" href="https://torraninw.github.io/home_gym_payback/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://torraninw.github.io/home_gym_payback/">
+    <meta property="og:title" content="คำนวณจุดคุ้มทุน: ฟิตเนสที่บ้าน vs สมาชิกยิม — Payback Labs">
+    <meta property="og:description" content="เปรียบเทียบการซื้ออุปกรณ์ออกกำลังกายที่บ้านกับการสมัครสมาชิกยิม คำนวณจุดคุ้มทุนและดูว่าแบบไหนประหยัดกว่าในระยะยาว">
+    <meta property="og:site_name" content="Payback Labs">
+    <meta property="og:locale" content="th_TH">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="คำนวณจุดคุ้มทุน: ฟิตเนสที่บ้าน vs สมาชิกยิม">
+    <meta name="twitter:description" content="เปรียบเทียบการซื้ออุปกรณ์ออกกำลังกายที่บ้านกับการสมัครสมาชิกยิม คำนวณจุดคุ้มทุนและดูว่าแบบไหนประหยัดกว่าในระยะยาว">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "เครื่องคำนวณจุดคุ้มทุน: ฟิตเนสที่บ้าน vs สมาชิกยิม",
+      "url": "https://torraninw.github.io/home_gym_payback/",
+      "description": "เปรียบเทียบการซื้ออุปกรณ์ออกกำลังกายที่บ้านกับการสมัครสมาชิกยิม คำนวณจุดคุ้มทุนและดูว่าแบบไหนประหยัดกว่าในระยะยาว",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "th",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "THB" },
+      "publisher": { "@type": "Organization", "name": "Payback Labs", "url": "https://torraninw.github.io/" }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            /* Gym / athletic theme — cobalt energy, same Plus Jakarta Sans + layout as the solar version */
+            --bg-cream: #f5f8fd;
+            --card-white: #ffffff;
+            --text-charcoal: #14213d;
+            --text-muted: #5a6884;
+            --primary-forest: #2563eb;
+            --primary-forest-hover: #1d4ed8;
+            --primary-forest-light: #eaf1fe;
+            --accent-sage: #1e40af;
+            --accent-sage-light: #e4ecfd;
+            --accent-emerald: #0891b2;
+            --accent-emerald-light: #e8fbff;
+            --accent-gold: #ea580c;
+            --accent-gold-light: #fff1e8;
+            --accent-green: #16a34a;
+            --accent-green-light: #e7f8ee;
+            --accent-rust: #dc2626;
+            --accent-rust-light: #fef2f2;
+            --border-beige: #cdd9ec;
+            --border-light: #e3e9f4;
+            --shadow-warm: 0 12px 32px rgba(37, 99, 235, 0.07);
+            --shadow-sm: 0 4px 14px rgba(37, 99, 235, 0.05);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--text-charcoal);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            padding: 20px 10px;
+        }
+
+        .badge-country {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-forest-light);
+            color: var(--primary-forest);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            border: 1px solid rgba(37, 99, 235, 0.18);
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--primary-forest);
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--card-white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-warm);
+            padding: 24px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-forest);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px dashed var(--border-light);
+            padding-bottom: 12px;
+        }
+
+        .card-title i {
+            color: var(--accent-gold);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--text-charcoal);
+            margin-bottom: 8px;
+        }
+
+        label .label-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--bg-cream);
+            border: 1px solid var(--border-beige);
+            border-radius: var(--radius-md);
+            color: var(--text-charcoal);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: var(--primary-forest);
+            background-color: var(--card-white);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        input[type="number"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 16px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .input-wrapper input {
+            padding-right: 52px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .slider-value-badge {
+            background-color: var(--primary-forest-light);
+            color: var(--primary-forest);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-beige);
+            outline: none;
+            margin: 10px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-forest);
+            cursor: pointer;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+            transition: var(--transition);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-forest);
+            cursor: pointer;
+        }
+
+        .derived-badge {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            background-color: var(--accent-green-light);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .preset-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .preset-btn {
+            background-color: var(--bg-cream);
+            border: 1px solid var(--border-beige);
+            color: var(--text-charcoal);
+            padding: 12px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .preset-btn:hover {
+            background-color: var(--primary-forest-light);
+            border-color: var(--primary-forest);
+            color: var(--primary-forest);
+        }
+
+        .preset-btn.active {
+            background-color: var(--primary-forest);
+            border-color: var(--primary-forest);
+            color: var(--card-white);
+        }
+
+        .results-header-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        @media (max-width: 768px) {
+            .results-header-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .metric-glow-card {
+            background: linear-gradient(135deg, var(--card-white) 0%, var(--bg-cream) 100%);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .metric-glow-card.success {
+            border-color: var(--primary-forest);
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-forest-light) 100%);
+        }
+
+        /* Color encodes meaning: cobalt = headline payback, green = money saved, ink = neutral reference */
+        #paybackValue:not(.warn) {
+            color: var(--primary-forest);
+        }
+        #homeMonthValue:not(.warn) {
+            color: var(--primary-forest);
+        }
+        #annualSaveValue:not(.warn) {
+            color: var(--accent-green);
+        }
+
+        .metric-glow-card.warn {
+            border-color: var(--accent-rust);
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-rust-light) 100%);
+        }
+
+        .metric-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .metric-value {
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            line-height: 1.1;
+            margin-bottom: 4px;
+            letter-spacing: -0.04em;
+        }
+
+        .metric-value.warn {
+            color: var(--accent-rust);
+        }
+
+        .metric-sub {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-charcoal);
+        }
+
+        .verdict-panel {
+            background-color: var(--accent-gold-light);
+            border-left: 5px solid var(--accent-gold);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 22px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .verdict-panel.good {
+            background-color: var(--accent-green-light);
+            border-left-color: var(--accent-green);
+        }
+
+        .verdict-panel.bad {
+            background-color: var(--accent-rust-light);
+            border-left-color: var(--accent-rust);
+        }
+
+        .verdict-panel i {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-top: 2px;
+        }
+
+        .verdict-panel.good i { color: var(--accent-green); }
+        .verdict-panel.bad i { color: var(--accent-rust); }
+
+        .verdict-content h4 {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text-charcoal);
+            margin-bottom: 4px;
+        }
+
+        .verdict-content p {
+            font-size: 0.88rem;
+            color: var(--text-charcoal);
+            line-height: 1.45;
+        }
+
+        .tabs-nav {
+            display: flex;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 20px;
+            gap: 10px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 18px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+
+        .tab-btn:hover { color: var(--primary-forest); }
+
+        .tab-btn.active {
+            color: var(--primary-forest);
+            border-bottom-color: var(--primary-forest);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-cream);
+            color: var(--text-charcoal);
+            font-weight: 700;
+            padding: 14px 16px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-charcoal);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Grouped summary table (one-time vs recurring) */
+        tr.sum-group td {
+            background-color: var(--primary-forest-light);
+            color: var(--primary-forest);
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 10px 16px;
+        }
+
+        tr.sum-group td i { color: var(--primary-forest); margin-right: 6px; }
+
+        tr.sum-subtotal td {
+            background-color: var(--bg-cream);
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .text-green { color: var(--accent-green) !important; }
+        .text-rust { color: var(--accent-rust) !important; }
+
+        .chart-box {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            margin-top: 15px;
+        }
+
+        .info-note {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 10px;
+            background: var(--bg-cream);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+        }
+
+        .info-note i {
+            color: var(--accent-gold);
+            margin-top: 3px;
+        }
+
+        .section-subtitle {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary-forest);
+            margin: 22px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ===== Gym equipment item rows ===== */
+        .gym-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .gym-item-check {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 0;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            min-width: 0;
+        }
+
+        .gym-item-check span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .gym-item-check input[type="checkbox"] {
+            width: 19px;
+            height: 19px;
+            flex: none;
+            accent-color: var(--primary-forest);
+            cursor: pointer;
+        }
+
+        .gym-item-cost {
+            width: 150px;
+            flex: none;
+        }
+
+        .gym-item-select {
+            width: 120px;
+            flex: none;
+            padding: 12px 10px;
+            font-size: 0.88rem;
+        }
+
+        .gym-item.off .gym-item-check span { color: var(--text-muted); }
+        .gym-item.off .gym-item-cost { opacity: 0.5; }
+
+        @media (max-width: 380px) {
+            .gym-item-cost { width: 120px; }
+        }
+
+        /* ===== Pros / Cons comparison ===== */
+        .proscons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .proscons-grid { grid-template-columns: 1fr; }
+        }
+
+        .proscons-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-forest);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--border-light);
+        }
+
+        .pc-list {
+            list-style: none;
+            margin: 0 0 16px;
+            padding: 0;
+        }
+
+        .pc-list li {
+            font-size: 0.86rem;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--text-charcoal);
+        }
+
+        .pc-list.pros li i { color: var(--accent-green); margin-top: 3px; }
+        .pc-list.cons li i { color: var(--accent-rust); margin-top: 3px; }
+
+        .pc-sublabel {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 30px 20px;
+            border-top: 1px dashed var(--border-beige);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 5px;
+        }
+
+        .footer-link {
+            color: var(--primary-forest);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-forest-hover);
+            transform: translateY(-1px);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            background: rgba(37, 99, 235, 0.04);
+            border: 1px solid var(--border-light);
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .footer-copyright {
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        /* ===== Mobile Responsive ===== */
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            header { margin-bottom: 20px; padding: 12px 0; }
+            header h1 { font-size: 1.45rem; letter-spacing: -0.02em; }
+            header p { font-size: 0.9rem; }
+            .card { padding: 16px; margin-bottom: 16px; }
+            .chart-box { height: 240px; }
+            .metric-value { font-size: 1.8rem; }
+            .preset-btn { padding: 10px 14px; font-size: 0.82rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="badge-country">
+            <i class="fa-solid fa-dumbbell"></i> เครื่องมือคำนวณจุดคุ้มทุนในการทำฟิตเนสที่บ้าน
+        </div>
+        <h1>ทำฟิตเนสที่บ้าน vs สมัครสมาชิกยิม — คุ้มทุนกี่เดือน?</h1>
+        <p>เปรียบเทียบเงินลงทุนอุปกรณ์ออกกำลังกายที่บ้าน กับค่าสมาชิกยิมรายเดือน (รวมค่าเดินทาง) ว่าซื้อเองคืนทุนเมื่อไหร่</p>
+    </header>
+
+    <!-- ============ RESULTS DASHBOARD ============ -->
+    <div class="card" id="resultsCard">
+        <h3 class="card-title">
+            <i class="fa-solid fa-chart-pie"></i> สรุปผลตอบแทน (Dashboard)
+        </h3>
+
+        <div class="results-header-metrics">
+            <div class="metric-glow-card success" id="saveCard">
+                <div class="metric-label">ประหยัดต่อปี (กระแสเงินสด)</div>
+                <div class="metric-value" id="annualSaveValue">–</div>
+                <div class="metric-sub" id="monthlySaveSub">≈ – บาท/เดือน</div>
+            </div>
+            <div class="metric-glow-card" id="homeMonthCard">
+                <div class="metric-label">ต้นทุนต่อเดือน (ทำเอง)</div>
+                <div class="metric-value" id="homeMonthValue">–</div>
+                <div class="metric-sub" id="homeMonthSub">เทียบยิม: – บาท/เดือน</div>
+            </div>
+            <div class="metric-glow-card" id="paybackCard">
+                <div class="metric-label">ระยะเวลาคืนทุน</div>
+                <div class="metric-value" id="paybackValue">–</div>
+                <div class="metric-sub" id="paybackSub">เดือน</div>
+            </div>
+        </div>
+
+        <div class="verdict-panel" id="verdictPanel">
+            <i class="fa-solid fa-lightbulb" id="verdictIcon"></i>
+            <div class="verdict-content">
+                <h4 id="verdictTitle">กรอกข้อมูลเพื่อดูผลลัพธ์</h4>
+                <p id="verdictText">ปรับค่าด้านล่างเพื่อคำนวณจุดคุ้มทุน</p>
+            </div>
+        </div>
+
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab(event, 'tabSummary')">
+                <i class="fa-solid fa-square-poll-vertical"></i> สรุปผลรายปี
+            </button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabPerMonth')">
+                <i class="fa-solid fa-calendar-day"></i> ต้นทุนต่อเดือน
+            </button>
+            <button class="tab-btn" onclick="switchTab(event, 'tabChart')">
+                <i class="fa-solid fa-chart-line"></i> กราฟสะสมต้นทุน
+            </button>
+        </div>
+
+        <!-- TAB: SUMMARY -->
+        <div class="tab-content active" id="tabSummary">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>รายการ</th><th class="text-right">มูลค่า (บาท)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="sum-group"><td colspan="2"><i class="fa-solid fa-piggy-bank"></i> เงินลงทุนครั้งเดียว (เริ่มต้น)</td></tr>
+                        <tr><td>เงินลงทุนอุปกรณ์ที่บ้าน</td><td class="text-right" id="sumInvest">–</td></tr>
+                        <tr id="sumJoinRow"><td><i class="fa-solid fa-door-open" style="color:var(--text-muted)"></i> หัก ค่าแรกเข้ายิมที่ประหยัดได้</td><td class="text-right" id="sumJoin">–</td></tr>
+                        <tr class="sum-subtotal"><td><b>เงินลงทุนสุทธิเริ่มต้น</b></td><td class="text-right" id="sumUpfrontNet">–</td></tr>
+                        <tr class="sum-group"><td colspan="2"><i class="fa-solid fa-rotate"></i> ต้นทุนต่อปี (เกิดซ้ำ)</td></tr>
+                        <tr><td><i class="fa-solid fa-id-card" style="color:var(--accent-gold)"></i> ค่าสมาชิกยิม + เดินทาง / ปี</td><td class="text-right" id="sumMemAnnual">–</td></tr>
+                        <tr><td><i class="fa-solid fa-bolt" style="color:var(--accent-emerald)"></i> ค่าดูแล + ค่าไฟ (ทำเอง) / ปี</td><td class="text-right" id="sumHomeRun">–</td></tr>
+                        <tr class="sum-subtotal"><td><b>ประหยัดต่อปี (กระแสเงินสด)</b></td><td class="text-right" id="sumNetAnnual">–</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB: PER MONTH -->
+        <div class="tab-content" id="tabPerMonth">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>องค์ประกอบต้นทุนต่อเดือน (ทำเอง)</th><th class="text-right">บาท/เดือน</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>ค่าเสื่อมอุปกรณ์ (เฉลี่ยตามอายุการใช้งาน)</td><td class="text-right" id="pmDeprec">–</td></tr>
+                        <tr><td>ค่าบำรุงรักษา (เฉลี่ย)</td><td class="text-right" id="pmMaint">–</td></tr>
+                        <tr><td>ค่าไฟ (แอร์ + ลู่วิ่ง โดยประมาณ)</td><td class="text-right" id="pmElec">–</td></tr>
+                        <tr><td><b>รวมต้นทุนต่อเดือน (ทำเอง, all-in)</b></td><td class="text-right" id="pmTotal">–</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="info-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span><b>ต้นทุนยิมต่อเดือน:</b> <span id="pmMemCompare">–</span> บาท/เดือน (รวมค่าเดินทางแล้ว) — ตัวเลข all-in ด้านบนคือการเปรียบเทียบที่ซื่อสัตย์ที่สุด เพราะเฉลี่ยค่าอุปกรณ์ตามอายุการใช้งานเข้าไปด้วย</span>
+            </div>
+        </div>
+
+        <!-- TAB: CHART -->
+        <div class="tab-content" id="tabChart">
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;">
+                เส้นตัดกัน = จุดคุ้มทุน (เดือนที่ต้นทุนสะสมของการทำเองเริ่มถูกกว่าการเป็นสมาชิกยิม)
+            </p>
+            <div class="chart-box">
+                <canvas id="cumulativeChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ INPUT CARDS ============ -->
+    <div class="dashboard-grid">
+
+        <!-- CARD 1: GYM MEMBERSHIP SIDE -->
+        <div class="card">
+            <h3 class="card-title">
+                <i class="fa-solid fa-id-card"></i> 1. สมาชิกยิม
+            </h3>
+
+            <div class="form-group">
+                <label>ค่าสมาชิกรายเดือน</label>
+                <div class="input-wrapper">
+                    <input type="number" id="monthlyFee" value="1200" min="0" step="50" oninput="calc()">
+                    <span class="input-suffix">บาท</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="slider-header">
+                    <label style="margin-bottom:0;">จำนวนครั้งที่ไปยิมต่อเดือน</label>
+                    <span class="slider-value-badge"><span id="visitsBadge">12</span> ครั้ง/เดือน</span>
+                </div>
+                <input type="range" id="visitsPerMonth" min="0" max="30" step="1" value="12" oninput="updateVisits(this.value)">
+                <label class="label-desc" style="margin-bottom:0;">ใช้เป็นความถี่ร่วมกันทั้งสองฝั่ง — ทั้งคำนวณค่าเดินทางไปยิม และจำนวนครั้งที่ใช้เครื่องที่บ้าน (สำหรับประมาณค่าไฟ)</label>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ค่าเดินทางต่อครั้ง</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="transportPerVisit" value="40" min="0" step="5" oninput="calc()">
+                        <span class="input-suffix">บาท</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>ค่าแรกเข้า (ครั้งเดียว)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="joiningFee" value="0" min="0" step="100" oninput="calc()">
+                        <span class="input-suffix">บาท</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>ฝั่ง "ยิม" ตั้งใจให้เรียบง่าย: ค่าใช้จ่ายต่อเดือน = ค่าสมาชิก + (จำนวนครั้ง × ค่าเดินทางต่อครั้ง)</span>
+            </div>
+        </div>
+
+        <!-- CARD 2: HOME GYM SIDE -->
+        <div class="card">
+            <h3 class="card-title">
+                <i class="fa-solid fa-house"></i> 2. ทำฟิตเนสที่บ้าน
+            </h3>
+
+            <label>ระดับอุปกรณ์ (ตั้งราคาเริ่มต้น — แก้ไขได้ทุกช่อง)</label>
+            <div class="preset-container" id="gradeContainer">
+                <button class="preset-btn" data-grade="budget" onclick="selectGrade('budget')"><i class="fa-solid fa-piggy-bank"></i> ประหยัด</button>
+                <button class="preset-btn active" data-grade="standard" onclick="selectGrade('standard')"><i class="fa-solid fa-scale-balanced"></i> มาตรฐาน</button>
+                <button class="preset-btn" data-grade="premium" onclick="selectGrade('premium')"><i class="fa-solid fa-gem"></i> พรีเมียม</button>
+            </div>
+
+            <!-- ZONE: SETUP -->
+            <div class="section-subtitle"><i class="fa-solid fa-screwdriver-wrench"></i> ติดตั้ง & พื้นที่</div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_mats" checked onchange="calc()"><span>แผ่นยางกันกระแทก</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_mats" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_mirror" checked onchange="calc()"><span>กระจกเงา</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_mirror" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_aircon" onchange="calc()"><span>แอร์ (ติดตั้งใหม่)</span></label>
+                <select id="btu_aircon" class="gym-item-select" onchange="updateAircon()">
+                    <option value="12000">12,000 BTU</option>
+                    <option value="18000" selected>18,000 BTU</option>
+                    <option value="24000">24,000 BTU</option>
+                </select>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_aircon" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_storage" checked onchange="calc()"><span>ชั้นวาง / อื่นๆ</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_storage" min="0" step="50" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+
+            <!-- ZONE: CARDIO -->
+            <div class="section-subtitle"><i class="fa-solid fa-heart-pulse"></i> คาร์ดิโอ</div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_treadmill" checked onchange="calc()"><span>ลู่วิ่งไฟฟ้า</span></label>
+                <select id="hp_treadmill" class="gym-item-select" onchange="updateTreadmill()">
+                    <option value="2">2.0 HP</option>
+                    <option value="3" selected>3.0 HP</option>
+                    <option value="4">4.0 HP</option>
+                </select>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_treadmill" min="0" step="500" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_bike" onchange="calc()"><span>จักรยานออกกำลังกาย</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_bike" min="0" step="500" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+
+            <!-- ZONE: STRENGTH -->
+            <div class="section-subtitle"><i class="fa-solid fa-dumbbell"></i> เวทเทรนนิ่ง</div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_dumbbell" checked onchange="calc()"><span>ดัมเบล (ชุด)</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_dumbbell" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_barbell" checked onchange="calc()"><span>บาร์เบล + แผ่นน้ำหนัก</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_barbell" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_bench" checked onchange="calc()"><span>ม้านั่งเล่นเวท</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_bench" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_rack" checked onchange="calc()"><span>แร็ค / สควอทแร็ค</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_rack" min="0" step="100" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_smith" onchange="calc()"><span>สมิทแมชชีน</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_smith" min="0" step="500" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_cable" onchange="calc()"><span>เคเบิลแมชชีน (functional trainer)</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_cable" min="0" step="500" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+
+            <!-- ZONE: SMART HOME GYM -->
+            <div class="section-subtitle"><i class="fa-solid fa-microchip"></i> เวทเทรนนิ่งสมัยใหม่ (สมาร์ทโฮมยิม)</div>
+            <div class="gym-item">
+                <label class="gym-item-check"><input type="checkbox" id="it_smart" onchange="calc()"><span>เครื่องเวทดิจิทัลออลอินวัน (เช่น Speediance Gym Monster)</span></label>
+                <div class="input-wrapper gym-item-cost"><input type="number" id="cost_smart" min="0" step="1000" oninput="calc()"><span class="input-suffix">บาท</span></div>
+            </div>
+            <div class="info-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>เครื่องเวทดิจิทัลออลอินวันใช้มอเตอร์สร้างแรงต้าน รวมหลายฟังก์ชันในเครื่องเดียว — เป็นทางเลือกแทนชุดเวทแบบดั้งเดิม จึงปิดไว้เป็นค่าเริ่มต้น</span>
+            </div>
+
+            <span class="derived-badge" style="margin-top:14px;">เงินลงทุนรวม: <span id="totalInvest">–</span> บาท</span>
+
+            <!-- LIFESPAN & MAINTENANCE -->
+            <div class="form-row" style="margin-top:18px;">
+                <div class="form-group">
+                    <label>อายุการใช้งาน</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="lifeYears" value="5" min="1" step="1" oninput="calc()">
+                        <span class="input-suffix">ปี</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>ค่าบำรุงรักษาต่อปี</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="maintenance" value="500" min="0" step="100" oninput="calc()">
+                        <span class="input-suffix">บาท</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ELECTRICITY (estimated) -->
+            <div class="section-subtitle"><i class="fa-solid fa-bolt"></i> ค่าไฟ (ประมาณการอัตโนมัติ)</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>เวลาออกกำลังกายต่อครั้ง</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="hoursPerSession" value="1.5" min="0" step="0.5" oninput="calc()">
+                        <span class="input-suffix">ชม.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>ค่าไฟต่อหน่วย</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="elecRate" value="4.5" min="0" step="0.1" oninput="calc()">
+                        <span class="input-suffix">บ./หน่วย</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>กำลังไฟ ลู่วิ่ง
+                        <span class="label-desc">คิดค่าไฟเฉพาะตอนลู่วิ่งถูกเลือก</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="treadmillKW" value="1.5" min="0" step="0.1" oninput="calc()">
+                        <span class="input-suffix">kW</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>กำลังไฟ แอร์
+                        <span class="label-desc">ตั้งอัตโนมัติตามขนาด BTU — คิดค่าไฟเสมอ (ปรับได้)</span>
+                    </label>
+                    <div class="input-wrapper">
+                        <input type="number" id="airconKW" value="1.5" min="0" step="0.1" oninput="calc()">
+                        <span class="input-suffix">kW</span>
+                    </div>
+                </div>
+            </div>
+            <span class="derived-badge">ค่าไฟโดยประมาณ: <span id="elecMonthly">–</span> บาท/เดือน</span>
+            <div class="info-note">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>ประมาณการจากจำนวนครั้งที่ออกกำลังกายต่อเดือน (ใช้ค่าเดียวกับ "จำนวนครั้งที่ไปยิม") × เวลาต่อครั้ง × กำลังไฟ — <b>คิดค่าไฟแอร์เสมอ</b> (เพราะปกติเปิดแอร์ในห้องอยู่แล้ว แม้ไม่ได้ซื้อแอร์ใหม่) ส่วนลู่วิ่งคิดเฉพาะเมื่อเลือกซื้อ — อุปกรณ์อื่น (เวท/จักรยาน/สมาร์ทโฮมยิม) คิดเป็นค่าไฟเล็กน้อยจึงไม่นำมารวม</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ PROS / CONS (non-financial) ============ -->
+    <div class="card">
+        <h3 class="card-title">
+            <i class="fa-solid fa-scale-unbalanced"></i> ข้อดี–ข้อเสีย (ปัจจัยที่ไม่ใช่ตัวเงิน)
+        </h3>
+        <div class="proscons-grid">
+            <div class="proscons-col">
+                <h4><i class="fa-solid fa-id-card"></i> สมาชิกยิม</h4>
+                <div class="pc-sublabel">ข้อดี</div>
+                <ul class="pc-list pros">
+                    <li><i class="fa-solid fa-circle-check"></i> อุปกรณ์ครบและหลากหลาย มีเครื่องเฉพาะทางที่บ้านไม่มี</li>
+                    <li><i class="fa-solid fa-circle-check"></i> มีเพื่อนเล่น/เทรนเนอร์ ช่วยเรื่อง motivation และฟอร์มที่ถูกต้อง</li>
+                    <li><i class="fa-solid fa-circle-check"></i> ไม่ต้องดูแล/ซ่อมเครื่องเอง และไม่ใช้พื้นที่ในบ้าน</li>
+                </ul>
+                <div class="pc-sublabel">ข้อเสีย</div>
+                <ul class="pc-list cons">
+                    <li><i class="fa-solid fa-circle-xmark"></i> ถ้าคนเยอะอาจต้องรอคิว เล่นได้ไม่ครบตามโปรแกรม</li>
+                    <li><i class="fa-solid fa-circle-xmark"></i> มีค่าเดินทางและเสียเวลาเดินทางไป-กลับทุกครั้ง</li>
+                    <li><i class="fa-solid fa-circle-xmark"></i> ต้องจ่ายต่อเนื่อง หยุดจ่ายก็หมดสิทธิ์ใช้ และความเป็นส่วนตัวน้อย</li>
+                </ul>
+            </div>
+            <div class="proscons-col">
+                <h4><i class="fa-solid fa-house"></i> ฟิตเนสที่บ้าน</h4>
+                <div class="pc-sublabel">ข้อดี</div>
+                <ul class="pc-list pros">
+                    <li><i class="fa-solid fa-circle-check"></i> สะดวก เล่นได้ทุกเวลา ไม่ต้องเดินทางและไม่ต้องรอคิว</li>
+                    <li><i class="fa-solid fa-circle-check"></i> เป็นส่วนตัว และใช้ได้ทั้งครอบครัว</li>
+                    <li><i class="fa-solid fa-circle-check"></i> จ่ายครั้งเดียว ระยะยาวมักถูกกว่าถ้าเล่นสม่ำเสมอ</li>
+                </ul>
+                <div class="pc-sublabel">ข้อเสีย</div>
+                <ul class="pc-list cons">
+                    <li><i class="fa-solid fa-circle-xmark"></i> อุปกรณ์มีจำกัด ไม่หลากหลายเท่ายิม</li>
+                    <li><i class="fa-solid fa-circle-xmark"></i> คุณภาพ/ความแข็งแรงของอุปกรณ์ขึ้นอยู่กับงบประมาณ</li>
+                    <li><i class="fa-solid fa-circle-xmark"></i> ต้องมีพื้นที่ ต้องดูแลเอง และต้องมีวินัยในการเล่นด้วยตัวเอง</li>
+                </ul>
+            </div>
+        </div>
+        <div class="info-note">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>ข้อควรระวัง: ห้องฟิตเนสที่บ้านจะ "คุ้มทุน" ก็ต่อเมื่อได้ออกกำลังกายจริงอย่างสม่ำเสมอเท่านั้น ผลตอบแทนไม่ได้เกิดขึ้นเองโดยอัตโนมัติเหมือนการลงทุนทั่วไป — ถ้าเล่นไม่สม่ำเสมอ อุปกรณ์ที่ซื้อมาก็อาจไม่คืนทุน</span>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="/" class="footer-link">
+                    <i class="fa-solid fa-house"></i> Payback Labs
+                </a>
+                <a href="https://github.com/torraninw" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+                <a href="mailto:torraninw@gmail.com" class="footer-link">
+                    <i class="fa-regular fa-envelope"></i> Email
+                </a>
+            </div>
+            <p class="footer-copyright">
+                © <span id="year"></span> Payback Labs.
+            </p>
+            <div class="footer-disclaimer">
+                <strong>Disclaimer (ข้อจำกัดความรับผิดชอบ):</strong> เครื่องมือนี้จัดทำขึ้นเพื่อการจำลองและเปรียบเทียบต้นทุนเบื้องต้นสำหรับครัวเรือนเท่านั้น ผลลัพธ์อาจเปลี่ยนแปลงตามราคาอุปกรณ์และพฤติกรรมการใช้จริง ไม่ใช่คำแนะนำทางการเงินเชิงพาณิชย์ · เผยแพร่ภายใต้สัญญาอนุญาต CC BY-NC-SA 4.0
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script>
+/**
+ * ====================================================================
+ * Home Gym Payback Calculator — build-at-home vs gym membership
+ * (Thailand, residential). Single-file, vanilla JS. UI Thai, code English.
+ * Recompute on every input.
+ * ====================================================================
+ */
+
+// ---- Data layer: equipment items + per-grade preset prices (THB, all editable) ----
+const ITEMS = ['mats','mirror','aircon','storage','treadmill','bike','dumbbell','barbell','bench','rack','smith','cable','smart'];
+
+// aircon (cost) and treadmill are NOT graded — they are driven by spec dropdowns below.
+const GRADE_PRESETS = {
+    budget: {
+        mats: 1500, mirror: 1000, storage: 500,
+        bike: 3000,
+        dumbbell: 2000, barbell: 4000, bench: 2200, rack: 4900, smith: 18000, cable: 9000,
+        smart: 130000,
+        lifeYears: 4
+    },
+    standard: {
+        mats: 3500, mirror: 5000, storage: 1500,
+        bike: 7000,
+        dumbbell: 5000, barbell: 9000, bench: 4000, rack: 13000, smith: 39000, cable: 20000,
+        smart: 145000,
+        lifeYears: 6
+    },
+    premium: {
+        mats: 7000, mirror: 5000, storage: 3000,
+        bike: 18000,
+        dumbbell: 12000, barbell: 20000, bench: 9000, rack: 24000, smith: 49000, cable: 45000,
+        smart: 160000,
+        lifeYears: 8
+    }
+};
+
+// Aircon: fixed price + estimated power by BTU size (kW from solar tool's inverter-AC wattages).
+const AIRCON_BTU = {
+    '12000': { cost: 15000, kw: 0.9 },
+    '18000': { cost: 22000, kw: 1.4 },
+    '24000': { cost: 30000, kw: 2.1 }
+};
+
+// Treadmill: fixed price + estimated running power by motor HP.
+const TREADMILL_HP = {
+    '2': { cost: 9000,  kw: 1.0 },
+    '3': { cost: 18000, kw: 1.5 },
+    '4': { cost: 35000, kw: 2.0 }
+};
+
+// Items whose cost fields are filled by GRADE_PRESETS (excludes aircon + treadmill).
+const GRADED_ITEMS = ['mats','mirror','storage','bike','dumbbell','barbell','bench','rack','smith','cable','smart'];
+
+let currentGrade = 'standard';
+let cumulativeChart = null;
+
+// ---- Helpers ----
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isNaN(v) ? 0 : v; };
+const fmt0 = n => Math.round(n).toLocaleString('th-TH');
+const fmt2 = n => n.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// ---- Grade selection: fill all cost fields from the preset (values stay editable) ----
+function selectGrade(grade) {
+    currentGrade = grade;
+    const p = GRADE_PRESETS[grade];
+    document.querySelectorAll('#gradeContainer .preset-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.grade === grade);
+    });
+    GRADED_ITEMS.forEach(it => { $('cost_' + it).value = p[it]; });
+    $('lifeYears').value = p.lifeYears;  // better-built gear lasts longer
+    calc();
+}
+
+// ---- Spec-driven items: aircon (by BTU) and treadmill (by HP), independent of grade ----
+function updateAircon() {
+    const spec = AIRCON_BTU[$('btu_aircon').value];
+    $('cost_aircon').value = spec.cost;
+    $('airconKW').value = spec.kw;
+    calc();
+}
+
+function updateTreadmill() {
+    const spec = TREADMILL_HP[$('hp_treadmill').value];
+    $('cost_treadmill').value = spec.cost;
+    $('treadmillKW').value = spec.kw;
+    calc();
+}
+
+function updateVisits(val) {
+    $('visitsBadge').textContent = val;
+    calc();
+}
+
+// Each tab spotlights the headline metric it explains (blue frame follows the tab)
+const TAB_HIGHLIGHT = {
+    tabSummary:  'saveCard',       // สรุปผลรายปี → ประหยัดต่อปี
+    tabPerMonth: 'homeMonthCard',  // ต้นทุนต่อเดือน → ต้นทุนต่อเดือน (ทำเอง)
+    tabChart:    'paybackCard'     // กราฟสะสมต้นทุน → ระยะเวลาคืนทุน
+};
+
+function highlightMetric(tabId) {
+    ['saveCard', 'homeMonthCard', 'paybackCard'].forEach(id => $(id).classList.remove('success'));
+    const target = TAB_HIGHLIGHT[tabId];
+    if (target) $(target).classList.add('success');
+}
+
+function switchTab(event, tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    $(tabId).classList.add('active');
+    highlightMetric(tabId);
+}
+
+// ---- Sum of included equipment, and grey-out dimming for unchecked rows ----
+function equipmentTotal() {
+    let sum = 0;
+    ITEMS.forEach(it => {
+        const on = $('it_' + it).checked;
+        const cost = num('cost_' + it);
+        if (on) sum += cost;
+        // visual: dim the row when unchecked
+        $('it_' + it).closest('.gym-item').classList.toggle('off', !on);
+    });
+    return sum;
+}
+
+// ---- Core calculation ----
+function calc() {
+    // Membership side
+    const monthlyFee   = num('monthlyFee');
+    const visits       = num('visitsPerMonth');
+    const transport    = num('transportPerVisit');
+    const joiningFee   = num('joiningFee');
+    const memMonthly   = monthlyFee + visits * transport;
+    const memAnnual    = memMonthly * 12;
+
+    // Home equipment investment
+    const equip       = equipmentTotal();
+    const lifeYears   = Math.max(num('lifeYears'), 0.0001);
+    const lifeMonths  = lifeYears * 12;
+    const maintYear   = num('maintenance');
+
+    // Estimated home electricity (only treadmill + air-con, when included)
+    const hoursPerSession = num('hoursPerSession');
+    const rate            = num('elecRate');
+    const treadmillKW     = $('it_treadmill').checked ? num('treadmillKW') : 0;
+    const airconKW        = num('airconKW');  // always counted — room AC runs regardless of purchase
+    const kWperSession    = (treadmillKW + airconKW) * hoursPerSession;
+    const elecMonthly     = kWperSession * visits * rate;
+
+    const homeRunningMonthly = maintYear / 12 + elecMonthly;
+    const homeRunningAnnual  = homeRunningMonthly * 12;
+
+    $('totalInvest').textContent = fmt0(equip);
+    $('elecMonthly').textContent = fmt0(elecMonthly);
+
+    // Per-month all-in (home TCO over equipment life)
+    const deprecMonthly  = equip / lifeMonths;
+    const maintMonthly   = maintYear / 12;
+    const homeAllInMonth = deprecMonthly + maintMonthly + elecMonthly;
+
+    // Savings & payback (cash basis). Membership joining fee offsets home upfront.
+    const monthlySave  = memMonthly - homeRunningMonthly;
+    const netAnnualCash = memAnnual - homeRunningAnnual;
+    const upfrontNet   = equip - joiningFee;
+    let paybackMonths;
+    if (monthlySave <= 0)        paybackMonths = Infinity;
+    else if (upfrontNet <= 0)    paybackMonths = 0;
+    else                         paybackMonths = upfrontNet / monthlySave;
+
+    renderResults({
+        memAnnual, homeRunningAnnual, equip, joiningFee, upfrontNet, netAnnualCash,
+        monthlySave, paybackMonths, homeAllInMonth, memMonthly,
+        deprecMonthly, maintMonthly, elecMonthly, visits
+    });
+    updateChart(memMonthly, joiningFee, equip, homeRunningMonthly, lifeYears, paybackMonths);
+}
+
+// ---- Render headline + tables + verdict ----
+function renderResults(r) {
+    // Payback card
+    // Blue frame is driven by the active tab (highlightMetric); here we only flag the
+    // not-worth-it state in red, which overrides the blue frame via CSS order.
+    const pc = $('paybackCard');
+    const pv = $('paybackValue');
+    pc.classList.remove('warn');
+    pv.classList.remove('warn');
+    if (r.paybackMonths === Infinity) {
+        pv.textContent = 'ไม่คุ้มทุน';
+        pv.classList.add('warn');
+        pc.classList.add('warn');
+        $('paybackSub').textContent = 'ทำเองแพงกว่าการเป็นสมาชิกยิม';
+    } else if (r.paybackMonths === 0) {
+        pv.textContent = 'ทันที';
+        $('paybackSub').textContent = 'ไม่มีต้นทุนลงทุนสุทธิเพิ่ม';
+    } else {
+        pv.textContent = fmt0(r.paybackMonths);
+        $('paybackSub').textContent = 'เดือน (≈ ' + fmt2(r.paybackMonths / 12) + ' ปี)';
+    }
+
+    // Cost-per-month card
+    $('homeMonthValue').textContent = fmt0(r.homeAllInMonth);
+    const diff = r.memMonthly - r.homeAllInMonth;
+    let monthSub = 'เทียบยิม: ' + fmt0(r.memMonthly) + ' บาท/เดือน';
+    if (diff > 0) monthSub += ' (ถูกกว่า ' + fmt0(diff) + ')';
+    else if (diff < 0) monthSub += ' (แพงกว่า ' + fmt0(-diff) + ')';
+    $('homeMonthSub').textContent = monthSub;
+
+    // Annual savings card
+    $('annualSaveValue').textContent = fmt0(r.netAnnualCash);
+    $('annualSaveValue').classList.toggle('warn', r.netAnnualCash < 0);
+    $('monthlySaveSub').textContent = '≈ ' + fmt0(r.monthlySave) + ' บาท/เดือน';
+
+    // Verdict
+    const panel = $('verdictPanel'), icon = $('verdictIcon');
+    const title = $('verdictTitle'), text = $('verdictText');
+    panel.classList.remove('good', 'bad');
+    if (r.equip <= 0) {
+        icon.className = 'fa-solid fa-dumbbell';
+        title.textContent = 'ยังไม่ได้เลือกอุปกรณ์';
+        text.textContent = 'เลือกอุปกรณ์ที่จะซื้อในการ์ด "ทำฟิตเนสที่บ้าน" เพื่อเริ่มคำนวณ';
+    } else if (r.monthlySave <= 0) {
+        panel.classList.add('bad');
+        icon.className = 'fa-solid fa-triangle-exclamation';
+        title.textContent = 'ทำเองยังไม่คุ้มทุน';
+        text.textContent = 'ด้วยค่าที่กรอก ค่าใช้จ่ายรายเดือนของยิม (' + fmt0(r.memMonthly) +
+            ' บาท) ยังต่ำกว่าหรือเท่ากับค่าดูแล+ค่าไฟของการทำเอง ลองเพิ่มความถี่การไปยิม หรือลดงบอุปกรณ์ลง';
+    } else {
+        panel.classList.add('good');
+        icon.className = 'fa-solid fa-circle-check';
+        const paybackTxt = r.paybackMonths === 0 ? 'คืนทุนทันที' : 'คืนทุนใน ' + fmt0(r.paybackMonths) + ' เดือน';
+        title.textContent = 'ทำเองคุ้มกว่าในระยะยาว 👍';
+        text.textContent = 'ประหยัดราว ' + fmt0(r.netAnnualCash) + ' บาท/ปี และ' + paybackTxt +
+            ' (เทียบเงินลงทุนอุปกรณ์ ' + fmt0(r.equip) + ' บาท กับค่าสมาชิกยิมที่ประหยัดได้)';
+    }
+
+    // Summary table — one-time group
+    $('sumInvest').textContent      = fmt0(r.equip);
+    $('sumUpfrontNet').textContent  = fmt0(r.upfrontNet);
+    // Joining fee row only when relevant (shown as a deduction)
+    if (r.joiningFee > 0) {
+        $('sumJoinRow').classList.remove('hidden');
+        $('sumJoin').textContent = '−' + fmt0(r.joiningFee);
+    } else {
+        $('sumJoinRow').classList.add('hidden');
+    }
+    // Summary table — recurring group
+    $('sumMemAnnual').textContent = fmt0(r.memAnnual);
+    $('sumHomeRun').textContent   = fmt0(r.homeRunningAnnual);
+    const netCell = $('sumNetAnnual');
+    netCell.textContent = fmt0(r.netAnnualCash);
+    netCell.className = 'text-right ' + (r.netAnnualCash >= 0 ? 'text-green' : 'text-rust');
+
+    // Per-month table
+    $('pmDeprec').textContent     = fmt0(r.deprecMonthly);
+    $('pmMaint').textContent      = fmt0(r.maintMonthly);
+    $('pmElec').textContent       = fmt0(r.elecMonthly);
+    $('pmTotal').textContent      = fmt0(r.homeAllInMonth);
+    $('pmMemCompare').textContent = fmt0(r.memMonthly);
+}
+
+// ---- Chart: cumulative cost crossover ----
+function updateChart(memMonthly, joiningFee, equip, homeRunningMonthly, lifeYears, paybackMonths) {
+    // Horizon: cover payback + buffer, the equipment life, min 24 months
+    let horizon = Math.max(24, Math.ceil(lifeYears * 12));
+    if (isFinite(paybackMonths)) horizon = Math.max(horizon, Math.ceil(paybackMonths) + 12);
+    horizon = Math.min(horizon, 240); // cap at 20 years
+
+    const labels = [], memData = [], homeData = [];
+    for (let m = 0; m <= horizon; m++) {
+        labels.push(m);
+        memData.push(joiningFee + memMonthly * m);
+        homeData.push(equip + homeRunningMonthly * m);
+    }
+
+    if (!cumulativeChart) {
+        if (typeof Chart === 'undefined') return; // CDN not ready yet
+        const ctx = $('cumulativeChart').getContext('2d');
+        cumulativeChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'สมาชิกยิม (สะสม)',
+                        data: memData,
+                        borderColor: '#ea580c',
+                        backgroundColor: 'rgba(234,88,12,0.10)',
+                        borderWidth: 2.5, tension: 0.1, pointRadius: 0, fill: false
+                    },
+                    {
+                        label: 'ทำเองที่บ้าน (สะสม รวมเงินลงทุน)',
+                        data: homeData,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37,99,235,0.10)',
+                        borderWidth: 2.5, tension: 0.1, pointRadius: 0, fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { labels: { font: { family: 'Plus Jakarta Sans', weight: '600' } } },
+                    tooltip: {
+                        callbacks: {
+                            title: items => 'เดือนที่ ' + items[0].label,
+                            label: c => c.dataset.label + ': ' + fmt0(c.parsed.y) + ' บาท'
+                        }
+                    }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'เดือน' }, ticks: { maxTicksLimit: 12 } },
+                    y: {
+                        title: { display: true, text: 'ต้นทุนสะสม (บาท)' },
+                        ticks: { callback: v => fmt0(v) }
+                    }
+                }
+            }
+        });
+    } else {
+        cumulativeChart.data.labels = labels;
+        cumulativeChart.data.datasets[0].data = memData;
+        cumulativeChart.data.datasets[1].data = homeData;
+        cumulativeChart.update();
+    }
+}
+
+// ---- Init ----
+window.addEventListener('DOMContentLoaded', () => {
+    selectGrade('standard');  // fills graded costs + lifespan + first calc (chart guarded if Chart not yet loaded)
+    updateAircon();           // fill aircon cost + kW from default BTU (spec-driven, not graded)
+    updateTreadmill();        // fill treadmill cost + kW from default HP (spec-driven, not graded)
+    setTimeout(calc, 0);      // re-run once Chart.js (deferred) has parsed, to build the chart
+});
+</script>
+
+</body>
+</html>
